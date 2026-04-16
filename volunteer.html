@@ -24,13 +24,11 @@
       --r-md: 16px; --r-lg: 24px; --r-xl: 40px;
     }
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: var(--font-body); color: var(--ink); background: var(--snow); overflow-x: hidden; cursor: none; }
+    body { font-family: var(--font-body); color: var(--ink); background: var(--snow); overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
 
-    #cursor { width:12px;height:12px;background:var(--green);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply; }
-    #cursor-ring { width:40px;height:40px;border:2px solid var(--green);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s var(--ease-expo),height .4s var(--ease-expo);opacity:.5; }
-    body.ch #cursor { width:6px;height:6px;background:var(--orange); }
-    body.ch #cursor-ring { width:60px;height:60px;opacity:.2;border-color:var(--orange); }
+    #cursor { display:none; }
+    #cursor-ring { display:none; }
 
     .pt { position:fixed;inset:0;z-index:10000;background:var(--green);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease-expo); }
     .pt.gone { opacity:0;pointer-events:none; }
@@ -53,15 +51,17 @@
     .nav-donate { background:var(--blue)!important;color:var(--snow)!important;padding:.6rem 1.4rem;border-radius:100px;font-weight:600!important;box-shadow:0 4px 20px rgba(0,67,168,.25); }
     .nav-donate::after { display:none!important; }
     .nav-donate:hover { background:var(--orange)!important;transform:translateY(-2px)!important; }
-    .hamburger { display:none;flex-direction:column;gap:5px;cursor:none;padding:4px; }
+    .hamburger { display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px; }
     .hamburger span { width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s; }
     @media(max-width:768px){
       #header{padding:1rem 1.5rem;}#header.scrolled{padding:.8rem 1.5rem;}
       .hamburger{display:flex;}
-      .nav-links{position:fixed;top:0;right:-100%;bottom:0;width:min(320px,85vw);background:var(--snow);flex-direction:column;align-items:flex-start;justify-content:center;padding:3rem 2.5rem;gap:2rem;box-shadow:-20px 0 60px rgba(0,0,0,.12);transition:right .45s var(--ease-expo);z-index:999;}
+      .nav-links{position:fixed;top:0;right:-100%;bottom:0;width:min(320px,85vw);background:var(--snow);flex-direction:column;align-items:flex-start;justify-content:center;padding:3rem 2.5rem;gap:2rem;box-shadow:-20px 0 60px rgba(0,0,0,.12);transition:right .45s var(--ease-expo);z-index:10001;overflow-y:auto;-webkit-overflow-scrolling:touch;}
       .nav-links.open{right:0;}
+      .nav-links li{width:100%;}
+      .nav-links a{display:block;width:100%;}
     }
-    .nav-backdrop{position:fixed;inset:0;background:rgba(13,21,32,.4);z-index:998;opacity:0;pointer-events:none;transition:opacity .3s;}
+    .nav-backdrop{position:fixed;inset:0;background:rgba(13,21,32,.4);z-index:10000;opacity:0;pointer-events:none;transition:opacity .3s;}
     .nav-backdrop.visible{opacity:1;pointer-events:all;}
 
     /* Hero */
@@ -412,7 +412,7 @@
 </div>
 
 <footer class="mini-footer">
-  <p>© 2025 The Rising Mukuru. Built with 💚</p>
+  <p>© 2026 The Rising Mukuru. Built with 💚</p>
   <div style="display:flex;gap:1.5rem;">
     <a href="index.html">Home</a>
     <a href="donate.html">Donate</a>
@@ -425,19 +425,13 @@
 window.addEventListener('load', () => setTimeout(() => document.getElementById('pt').classList.add('gone'), 700));
 new Lenis({ autoRaf: true, lerp: 0.1 });
 
-const cursor = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
-(function anim(){ cursor.style.left=mx+'px';cursor.style.top=my+'px'; rx+=(mx-rx)*.12;ry+=(my-ry)*.12; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
-document.querySelectorAll('a,button,input,select,textarea,.role-card').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
-});
+/* Custom cursor removed — using native OS cursor */
 
 const hamburger=document.getElementById('hamburger'),navLinks=document.getElementById('nav-links'),navBackdrop=document.getElementById('nav-backdrop');
 let no=false;
-function toggleNav(){ no=!no;navLinks.classList.toggle('open',no);navBackdrop.classList.toggle('visible',no); hamburger.querySelectorAll('span')[0].style.transform=no?'translateY(7px) rotate(45deg)':''; hamburger.querySelectorAll('span')[1].style.opacity=no?'0':''; hamburger.querySelectorAll('span')[2].style.transform=no?'translateY(-7px) rotate(-45deg)':''; }
+function toggleNav(){ no=!no;navLinks.classList.toggle('open',no);navBackdrop.classList.toggle('visible',no); hamburger.querySelectorAll('span')[0].style.transform=no?'translateY(7px) rotate(45deg)':''; hamburger.querySelectorAll('span')[1].style.opacity=no?'0':''; hamburger.querySelectorAll('span')[2].style.transform=no?'translateY(-7px) rotate(-45deg)':''; document.body.style.overflow=no?'hidden':''; }
 hamburger.addEventListener('click',toggleNav);navBackdrop.addEventListener('click',toggleNav);
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(no)toggleNav();}));
 
 window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60));
 

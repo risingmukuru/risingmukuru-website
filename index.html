@@ -57,26 +57,16 @@
       color: var(--ink);
       background: var(--snow);
       overflow-x: hidden;
-      cursor: none;
     }
 
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
-    button { border: none; background: none; cursor: none; }
+    button { border: none; background: none; cursor: pointer; }
 
     /* ══════════════════════════════════════════
-       CUSTOM CURSOR
+       CUSTOM CURSOR — disabled
     ══════════════════════════════════════════ */
-    #cursor {
-      width: 12px; height: 12px;
-      background: var(--orange);
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: transform .1s, width .3s var(--ease-expo), height .3s var(--ease-expo), background .3s;
-      mix-blend-mode: multiply;
-    }
+    #cursor { display: none; }
     #cursor-ring {
       width: 40px; height: 40px;
       border: 2px solid var(--orange);
@@ -87,8 +77,7 @@
       transition: transform .18s var(--ease-expo), width .4s var(--ease-expo), height .4s var(--ease-expo), opacity .3s;
       opacity: .5;
     }
-    body.cursor-hover #cursor { width: 6px; height: 6px; background: var(--blue); }
-    body.cursor-hover #cursor-ring { width: 60px; height: 60px; opacity: .25; border-color: var(--blue); }
+    #cursor-ring { display: none; }
 
     /* ══════════════════════════════════════════
        NOISE OVERLAY
@@ -163,7 +152,7 @@
 
     .hamburger {
       display: none; flex-direction: column; gap: 5px;
-      cursor: none; padding: 4px;
+      cursor: pointer; padding: 4px;
     }
     .hamburger span {
       width: 24px; height: 2px; background: var(--ink);
@@ -182,13 +171,17 @@
         flex-direction: column; align-items: flex-start; justify-content: center;
         padding: 3rem 2.5rem; gap: 2rem;
         box-shadow: -20px 0 60px rgba(0,0,0,.12);
-        transition: right .45s var(--ease-expo); z-index: 999;
+        transition: right .45s var(--ease-expo);
+        z-index: 10001;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .nav-links.open { right: 0; }
-      .nav-links a { font-size: 1.2rem; }
+      .nav-links li { width: 100%; }
+      .nav-links a { font-size: 1.2rem; display: block; width: 100%; }
       .nav-backdrop {
         position: fixed; inset: 0; background: rgba(13,21,32,.4);
-        z-index: 998; opacity: 0; pointer-events: none;
+        z-index: 10000; opacity: 0; pointer-events: none;
         transition: opacity .3s;
       }
       .nav-backdrop.visible { opacity: 1; pointer-events: all; }
@@ -414,7 +407,7 @@
     .photo-strip-item {
       flex: 1; overflow: hidden; position: relative;
       transition: flex .6s var(--ease-expo);
-      cursor: none;
+      cursor: pointer;
     }
     .photo-strip-item:hover { flex: 2.5; }
     .photo-strip-item img {
@@ -686,7 +679,7 @@
       width: 48px; height: 48px; border-radius: 50%;
       background: var(--snow); border: 1.5px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      transition: all .3s var(--ease-expo); cursor: none;
+      transition: all .3s var(--ease-expo); cursor: pointer;
     }
     .swiper-btn:hover { background: var(--blue); border-color: var(--blue); }
     .swiper-btn:hover svg { color: var(--snow); }
@@ -730,7 +723,7 @@
       width: 100%; height: 6px; border-radius: 10px; outline: none;
       -webkit-appearance: none; appearance: none;
       background: rgba(255,255,255,.15);
-      cursor: none; margin-bottom: 2rem;
+      cursor: pointer; margin-bottom: 2rem;
     }
     .calc-slider::-webkit-slider-runnable-track {
       background: linear-gradient(to right, var(--orange) var(--pct,20%), rgba(255,255,255,.15) var(--pct,20%));
@@ -742,7 +735,7 @@
       background: var(--snow); margin-top: -8px;
       box-shadow: 0 2px 12px rgba(0,0,0,.3);
       transition: transform .2s var(--ease-back);
-      cursor: none;
+      cursor: pointer;
     }
     .calc-slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
 
@@ -1394,7 +1387,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 The Rising Mukuru. Mukuru kwa Reuben, Nairobi, Kenya.</p>
+    <p>© 2026 The Rising Mukuru. Mukuru kwa Reuben, Nairobi, Kenya.</p>
     <a href="#">Privacy Policy</a>
   </div>
 </footer>
@@ -1447,27 +1440,7 @@ function initHero() {
     .to('#scroll-hint', { opacity:1, duration:.8 }, 1.2);
 }
 
-/* ═══════════════════════════════════
-   CUSTOM CURSOR
-═══════════════════════════════════ */
-const cursor = document.getElementById('cursor');
-const ring   = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
-function animCursor() {
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-  rx += (mx - rx) * .12; ry += (my - ry) * .12;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-  requestAnimationFrame(animCursor);
-}
-animCursor();
-
-document.querySelectorAll('a, button, input, .program-card, .stat-card, .partner-pill').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-});
+/* Custom cursor removed — using native OS cursor */
 
 /* ═══════════════════════════════════
    MOBILE NAVIGATION
@@ -1484,6 +1457,9 @@ function toggleNav() {
   hamburger.querySelectorAll('span')[0].style.transform = navOpen ? 'translateY(7px) rotate(45deg)' : '';
   hamburger.querySelectorAll('span')[1].style.opacity   = navOpen ? '0' : '';
   hamburger.querySelectorAll('span')[2].style.transform = navOpen ? 'translateY(-7px) rotate(-45deg)' : '';
+  /* Lock body scroll while nav is open so page can't scroll behind it */
+  document.body.style.overflow = navOpen ? 'hidden' : '';
+  if (navOpen) lenis.stop(); else lenis.start();
 }
 hamburger.addEventListener('click', toggleNav);
 navBackdrop.addEventListener('click', toggleNav);
