@@ -166,21 +166,43 @@
       .hamburger { display: flex; }
       .nav-links {
         position: fixed; top: 0; right: -100%; bottom: 0;
-        width: min(320px, 85vw);
+        width: min(300px, 80vw);
         background: var(--snow);
-        flex-direction: column; align-items: flex-start; justify-content: center;
-        padding: 3rem 2.5rem; gap: 2rem;
-        box-shadow: -20px 0 60px rgba(0,0,0,.12);
-        transition: right .45s var(--ease-expo);
+        flex-direction: column; align-items: flex-start; justify-content: flex-start;
+        padding: 5rem 2rem 2rem;
+        gap: 0;
+        box-shadow: -20px 0 60px rgba(0,0,0,.18);
+        transition: right .4s var(--ease-expo);
         z-index: 10001;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
       }
       .nav-links.open { right: 0; }
-      .nav-links li { width: 100%; }
-      .nav-links a { font-size: 1.2rem; display: block; width: 100%; }
+      .nav-links li {
+        width: 100%;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links li:last-child { border-bottom: none; margin-top: 1.5rem; }
+      .nav-links a {
+        font-size: 1.05rem; display: block; width: 100%;
+        padding: .9rem 0; color: var(--ink);
+      }
+      .nav-links .nav-donate {
+        border-radius: var(--r-md); padding: .75rem 1.4rem;
+        text-align: center; display: block;
+      }
+      /* Close X button inside the panel */
+      .nav-close {
+        position: absolute; top: 1.2rem; right: 1.2rem;
+        width: 36px; height: 36px; border-radius: 50%;
+        background: var(--fog); border: none;
+        display: none; align-items: center; justify-content: center;
+        font-size: 1.1rem; cursor: pointer; color: var(--ink);
+        line-height: 1;
+      }
+      .nav-close.visible { display: flex; }
       .nav-backdrop {
-        position: fixed; inset: 0; background: rgba(13,21,32,.4);
+        position: fixed; inset: 0; background: rgba(13,21,32,.5);
         z-index: 10000; opacity: 0; pointer-events: none;
         transition: opacity .3s;
       }
@@ -799,24 +821,29 @@
        PARTNERS STRIP
     ══════════════════════════════════════════ */
     .partners {
-      padding: 4rem 3rem; background: var(--fog);
+      padding: 2.5rem 3rem; background: var(--fog);
       text-align: center;
     }
     .partners p {
-      font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--ink-30); font-weight: 600; margin-bottom: 2rem;
+      font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-30); font-weight: 600; margin-bottom: 1.25rem;
     }
     .partners-logos {
       display: flex; align-items: center; justify-content: center;
-      gap: 3rem; flex-wrap: wrap;
+      gap: .75rem; flex-wrap: wrap; max-width: 900px; margin: 0 auto;
     }
     .partner-pill {
       background: var(--snow); border: 1.5px solid var(--border);
-      border-radius: 100px; padding: .6rem 1.4rem;
-      font-size: .82rem; font-weight: 700; color: var(--ink-60);
-      letter-spacing: .04em; transition: all .3s;
+      border-radius: 100px; padding: .45rem 1.1rem;
+      font-size: .78rem; font-weight: 700; color: var(--ink-60);
+      letter-spacing: .04em; transition: all .3s; white-space: nowrap;
     }
     .partner-pill:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-2px); }
+    @media (max-width: 768px) {
+      .partners { padding: 2rem 1.5rem; }
+      .partners-logos { gap: .5rem; }
+      .partner-pill { font-size: .72rem; padding: .4rem .9rem; }
+    }
 
     /* ══════════════════════════════════════════
        FOOTER
@@ -921,7 +948,7 @@
       .programs-header { flex-direction: column; align-items: flex-start; }
       .stats { padding: 4rem 1.5rem; }
       .mission-banner { padding: 4rem 1.5rem; }
-      .partners { padding: 3rem 1.5rem; }
+      /* partners mobile handled in component styles above */
     }
   </style>
 </head>
@@ -949,6 +976,7 @@
   </div>
 
   <ul class="nav-links" id="nav-links">
+    <button class="nav-close" id="nav-close" aria-label="Close menu">✕</button>
     <li><a href="#about"    class="nav-link">About</a></li>
     <li><a href="#programs" class="nav-link">Programs</a></li>
     <li><a href="#impact"   class="nav-link">Impact</a></li>
@@ -1448,21 +1476,23 @@ function initHero() {
 const hamburger   = document.getElementById('hamburger');
 const navLinks    = document.getElementById('nav-links');
 const navBackdrop = document.getElementById('nav-backdrop');
+const navClose    = document.getElementById('nav-close');
 let navOpen = false;
 
 function toggleNav() {
   navOpen = !navOpen;
   navLinks.classList.toggle('open', navOpen);
   navBackdrop.classList.toggle('visible', navOpen);
+  navClose.classList.toggle('visible', navOpen);
   hamburger.querySelectorAll('span')[0].style.transform = navOpen ? 'translateY(7px) rotate(45deg)' : '';
   hamburger.querySelectorAll('span')[1].style.opacity   = navOpen ? '0' : '';
   hamburger.querySelectorAll('span')[2].style.transform = navOpen ? 'translateY(-7px) rotate(-45deg)' : '';
-  /* Lock body scroll while nav is open so page can't scroll behind it */
   document.body.style.overflow = navOpen ? 'hidden' : '';
   if (navOpen) lenis.stop(); else lenis.start();
 }
 hamburger.addEventListener('click', toggleNav);
 navBackdrop.addEventListener('click', toggleNav);
+navClose.addEventListener('click', toggleNav);
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { if(navOpen) toggleNav(); }));
 
 /* ═══════════════════════════════════

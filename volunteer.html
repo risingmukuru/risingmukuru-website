@@ -56,12 +56,16 @@
     @media(max-width:768px){
       #header{padding:1rem 1.5rem;}#header.scrolled{padding:.8rem 1.5rem;}
       .hamburger{display:flex;}
-      .nav-links{position:fixed;top:0;right:-100%;bottom:0;width:min(320px,85vw);background:var(--snow);flex-direction:column;align-items:flex-start;justify-content:center;padding:3rem 2.5rem;gap:2rem;box-shadow:-20px 0 60px rgba(0,0,0,.12);transition:right .45s var(--ease-expo);z-index:10001;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+      .nav-links{position:fixed;top:0;right:-100%;bottom:0;width:min(300px,80vw);background:var(--snow);flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:5rem 2rem 2rem;gap:0;box-shadow:-20px 0 60px rgba(0,0,0,.18);transition:right .4s var(--ease-expo);z-index:10001;overflow-y:auto;-webkit-overflow-scrolling:touch;}
       .nav-links.open{right:0;}
-      .nav-links li{width:100%;}
-      .nav-links a{display:block;width:100%;}
+      .nav-links li{width:100%;border-bottom:1px solid var(--border);}
+      .nav-links li:last-child{border-bottom:none;margin-top:1.5rem;}
+      .nav-links a{font-size:1.05rem;display:block;width:100%;padding:.9rem 0;color:var(--ink);}
+      .nav-links .nav-donate{border-radius:var(--r-md);padding:.75rem 1.4rem;text-align:center;display:block;}
+      .nav-close{position:absolute;top:1.2rem;right:1.2rem;width:36px;height:36px;border-radius:50%;background:var(--fog);border:none;display:none;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;color:var(--ink);line-height:1;}
+      .nav-close.visible{display:flex;}
     }
-    .nav-backdrop{position:fixed;inset:0;background:rgba(13,21,32,.4);z-index:10000;opacity:0;pointer-events:none;transition:opacity .3s;}
+    .nav-backdrop{position:fixed;inset:0;background:rgba(13,21,32,.5);z-index:10000;opacity:0;pointer-events:none;transition:opacity .3s;}
     .nav-backdrop.visible{opacity:1;pointer-events:all;}
 
     /* Hero */
@@ -194,6 +198,7 @@
     <span class="logo-tag">Rising Together · Est. 2017</span>
   </div>
   <ul class="nav-links" id="nav-links">
+    <button class="nav-close" id="nav-close" aria-label="Close menu">✕</button>
     <li><a href="index.html#about">About</a></li>
     <li><a href="index.html#programs">Programs</a></li>
     <li><a href="index.html#impact">Impact</a></li>
@@ -427,10 +432,10 @@ new Lenis({ autoRaf: true, lerp: 0.1 });
 
 /* Custom cursor removed — using native OS cursor */
 
-const hamburger=document.getElementById('hamburger'),navLinks=document.getElementById('nav-links'),navBackdrop=document.getElementById('nav-backdrop');
+const hamburger=document.getElementById('hamburger'),navLinks=document.getElementById('nav-links'),navBackdrop=document.getElementById('nav-backdrop'),navClose=document.getElementById('nav-close');
 let no=false;
-function toggleNav(){ no=!no;navLinks.classList.toggle('open',no);navBackdrop.classList.toggle('visible',no); hamburger.querySelectorAll('span')[0].style.transform=no?'translateY(7px) rotate(45deg)':''; hamburger.querySelectorAll('span')[1].style.opacity=no?'0':''; hamburger.querySelectorAll('span')[2].style.transform=no?'translateY(-7px) rotate(-45deg)':''; document.body.style.overflow=no?'hidden':''; }
-hamburger.addEventListener('click',toggleNav);navBackdrop.addEventListener('click',toggleNav);
+function toggleNav(){ no=!no;navLinks.classList.toggle('open',no);navBackdrop.classList.toggle('visible',no);navClose.classList.toggle('visible',no); hamburger.querySelectorAll('span')[0].style.transform=no?'translateY(7px) rotate(45deg)':''; hamburger.querySelectorAll('span')[1].style.opacity=no?'0':''; hamburger.querySelectorAll('span')[2].style.transform=no?'translateY(-7px) rotate(-45deg)':''; document.body.style.overflow=no?'hidden':''; }
+hamburger.addEventListener('click',toggleNav);navBackdrop.addEventListener('click',toggleNav);navClose.addEventListener('click',toggleNav);
 navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(no)toggleNav();}));
 
 window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60));
