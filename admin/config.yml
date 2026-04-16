@@ -1,0 +1,200 @@
+# ═══════════════════════════════════════════════════════
+# RISING MUKURU — DECAP CMS CONFIGURATION
+# ═══════════════════════════════════════════════════════
+# This file controls what Beth can edit in the dashboard.
+# Developers: edit field definitions here.
+# Beth: never needs to touch this file.
+# ═══════════════════════════════════════════════════════
+
+backend:
+  name: github
+  repo: risingmukuru/risingmukuru-website   # UPDATE: org-github-username/repo-name
+  branch: main
+  base_url: https://api.netlify.com          # Netlify handles the auth
+  auth_endpoint: auth
+
+# Where uploaded images/files get stored in the repo
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+# Show a live preview link in the editor
+site_url: https://risingmukuru.org           # UPDATE: your live domain
+
+# ═══════════════════════════════════════════════════════
+# COLLECTIONS — each collection = a section Beth can edit
+# ═══════════════════════════════════════════════════════
+
+collections:
+
+  # ─────────────────────────────────────────────────────
+  # 1. SITE SETTINGS — contact info, org details
+  # ─────────────────────────────────────────────────────
+  - name: "settings"
+    label: "⚙️ Site Settings"
+    description: "Contact info, social links, and organisation details"
+    files:
+
+      - name: "contact"
+        label: "📞 Contact & Organisation Info"
+        file: "content/data/contact.json"
+        fields:
+          - { label: "Organisation Name", name: "org_name", widget: "string", default: "The Rising Mukuru" }
+          - { label: "Tagline", name: "tagline", widget: "string", default: "Rising Together, Empowering Lives" }
+          - { label: "Email Address", name: "email", widget: "string", hint: "e.g. hello@risingmukuru.org" }
+          - { label: "Phone Number", name: "phone", widget: "string", hint: "e.g. +254 712 345 678" }
+          - { label: "Physical Address", name: "address", widget: "string", default: "Mukuru kwa Reuben, Nairobi, Kenya" }
+          - { label: "Facebook URL", name: "facebook", widget: "string", required: false, hint: "Leave blank until account is created" }
+          - { label: "Instagram URL", name: "instagram", widget: "string", required: false }
+          - { label: "Twitter / X URL", name: "twitter", widget: "string", required: false }
+          - { label: "WhatsApp Number", name: "whatsapp", widget: "string", required: false, hint: "e.g. +254712345678 (no spaces)" }
+          - { label: "Copyright Year", name: "year", widget: "string", default: "2025" }
+
+  # ─────────────────────────────────────────────────────
+  # 2. HOMEPAGE — hero, stats, about, CTA
+  # ─────────────────────────────────────────────────────
+  - name: "homepage"
+    label: "🏠 Homepage"
+    description: "Edit the main homepage content"
+    files:
+
+      - name: "hero"
+        label: "🎯 Hero Section (Top Banner)"
+        file: "content/data/hero.json"
+        fields:
+          - { label: "Main Heading Line 1", name: "heading1", widget: "string", default: "Rising" }
+          - { label: "Main Heading Line 2 (Orange)", name: "heading2", widget: "string", default: "Together." }
+          - { label: "Subheading Paragraph", name: "subheading", widget: "text", default: "We build safer communities in Mukuru kwa Reuben — through mentorship, mental health support, and empowerment for the youth and women who need it most." }
+          - { label: "Primary Button Text", name: "btn_primary", widget: "string", default: "Make an Impact" }
+          - { label: "Secondary Button Text", name: "btn_secondary", widget: "string", default: "Our Story" }
+
+      - name: "stats"
+        label: "📊 Impact Numbers"
+        file: "content/data/stats.json"
+        fields:
+          - label: "Stat 1"
+            name: "stat1"
+            widget: "object"
+            fields:
+              - { label: "Number", name: "number", widget: "number", default: 500 }
+              - { label: "Label", name: "label", widget: "string", default: "Youth Reached" }
+              - { label: "Show + sign", name: "plus", widget: "boolean", default: true }
+          - label: "Stat 2"
+            name: "stat2"
+            widget: "object"
+            fields:
+              - { label: "Number", name: "number", widget: "number", default: 250 }
+              - { label: "Label", name: "label", widget: "string", default: "Lives Empowered" }
+              - { label: "Show + sign", name: "plus", widget: "boolean", default: true }
+          - label: "Stat 3"
+            name: "stat3"
+            widget: "object"
+            fields:
+              - { label: "Number", name: "number", widget: "number", default: 150 }
+              - { label: "Label", name: "label", widget: "string", default: "Girls Protected" }
+              - { label: "Show + sign", name: "plus", widget: "boolean", default: true }
+          - label: "Stat 4"
+            name: "stat4"
+            widget: "object"
+            fields:
+              - { label: "Number", name: "number", widget: "number", default: 7 }
+              - { label: "Label", name: "label", widget: "string", default: "Years of Impact" }
+              - { label: "Show + sign", name: "plus", widget: "boolean", default: false }
+
+      - name: "about"
+        label: "👤 About / Beth's Story"
+        file: "content/data/about.json"
+        fields:
+          - { label: "Section Label (small text)", name: "label", widget: "string", default: "Our Foundation" }
+          - { label: "Heading", name: "heading", widget: "string", default: "Beth Muturi's Vision for Mukuru" }
+          - { label: "Paragraph 1", name: "para1", widget: "text" }
+          - { label: "Pull Quote", name: "quote", widget: "text" }
+          - { label: "Quote Attribution", name: "quote_cite", widget: "string", default: "— On Beth Muturi, Founder" }
+          - { label: "Paragraph 2", name: "para2", widget: "text" }
+          - { label: "About Photo", name: "photo", widget: "image", required: false, hint: "Best size: tall portrait photo of Beth or community" }
+
+      - name: "cta"
+        label: "📢 Call to Action Banner"
+        file: "content/data/cta.json"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string", default: "Be Part of the Rising" }
+          - { label: "Paragraph", name: "para", widget: "text", default: "Every child in Mukuru deserves hope, safety, and opportunity. Your support transforms lives." }
+          - { label: "Donate Button Text", name: "btn_donate", widget: "string", default: "💳 Donate Now" }
+          - { label: "Volunteer Button Text", name: "btn_volunteer", widget: "string", default: "🙋 Volunteer With Us" }
+
+  # ─────────────────────────────────────────────────────
+  # 3. PROGRAMS — edit each program card
+  # ─────────────────────────────────────────────────────
+  - name: "programs"
+    label: "📋 Programs"
+    description: "Add, edit or remove program cards on the homepage"
+    folder: "content/programs"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    fields:
+      - { label: "Program Title", name: "title", widget: "string" }
+      - { label: "Icon (emoji)", name: "icon", widget: "string", hint: "Just paste an emoji e.g. 🤝" }
+      - { label: "Number (01, 02...)", name: "number", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Active (show on site)", name: "active", widget: "boolean", default: true }
+      - { label: "Order", name: "order", widget: "number", default: 1, hint: "Lower number = appears first" }
+
+  # ─────────────────────────────────────────────────────
+  # 4. IMPACT STORIES — testimonials / story cards
+  # ─────────────────────────────────────────────────────
+  - name: "stories"
+    label: "💬 Impact Stories"
+    description: "Add real stories from the community. These appear in the sliding carousel."
+    folder: "content/stories"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "name"
+    fields:
+      - { label: "Person's Name", name: "name", widget: "string" }
+      - { label: "Description (e.g. Age 17 · Program Beneficiary)", name: "description", widget: "string" }
+      - { label: "Their Story (quote)", name: "quote", widget: "text", hint: "Write in first person, as if they are speaking" }
+      - { label: "Photo", name: "photo", widget: "image", required: false, hint: "Optional — circular portrait photo" }
+      - { label: "Active (show on site)", name: "active", widget: "boolean", default: true }
+
+  # ─────────────────────────────────────────────────────
+  # 5. DONATE PAGE — amounts and impact messages
+  # ─────────────────────────────────────────────────────
+  - name: "donate"
+    label: "💳 Donate Page"
+    description: "Update donation amounts, Zenlipa payment link, and impact descriptions"
+    files:
+
+      - name: "donate_settings"
+        label: "💰 Donation Settings"
+        file: "content/data/donate.json"
+        fields:
+          - { label: "Page Heading", name: "heading", widget: "string", default: "Give Hope. Change Lives." }
+          - { label: "Intro Paragraph", name: "intro", widget: "text" }
+          - { label: "Zenlipa Base URL", name: "zenlipa_url", widget: "string", hint: "e.g. https://zenlipa.com/pay/risingmukuru — get this from your Zenlipa dashboard", required: false }
+          - { label: "USD to KSh Rate", name: "usd_rate", widget: "number", default: 129, hint: "Update this when the exchange rate changes significantly" }
+          - label: "Donation Tiers"
+            name: "tiers"
+            widget: "list"
+            fields:
+              - { label: "Amount in KSh", name: "ksh", widget: "number" }
+              - { label: "Equivalent USD", name: "usd", widget: "number" }
+              - { label: "Short Label", name: "label", widget: "string", hint: "e.g. Mentorship — 1 month" }
+              - { label: "Impact Description", name: "impact", widget: "text", hint: "What does this amount actually do?" }
+
+  # ─────────────────────────────────────────────────────
+  # 6. VOLUNTEER PAGE
+  # ─────────────────────────────────────────────────────
+  - name: "volunteer"
+    label: "🙋 Volunteer Page"
+    description: "Update volunteer page content and Formspree form endpoint"
+    files:
+
+      - name: "volunteer_settings"
+        label: "Volunteer Page Settings"
+        file: "content/data/volunteer.json"
+        fields:
+          - { label: "Page Heading Line 1", name: "heading1", widget: "string", default: "Show Up." }
+          - { label: "Page Heading Line 2", name: "heading2", widget: "string", default: "Make History." }
+          - { label: "Intro Paragraph", name: "intro", widget: "text" }
+          - { label: "Formspree Endpoint", name: "formspree_url", widget: "string", hint: "e.g. https://formspree.io/f/xyzabc123 — get from Formspree dashboard", required: false }
+          - { label: "Response Time Promise", name: "response_time", widget: "string", default: "Response within 48 hours" }

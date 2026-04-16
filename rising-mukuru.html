@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rising Mukuru | Rising Together, Empowering Lives</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --warm-orange: #FF8C42;
+            --deep-blue: #0043A8;
+            --fresh-green: #27AE60;
+            --light-gray: #F5F5F5;
+            --dark-text: #2C3E50;
+            --accent-orange: #FFA500;
+            --white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--dark-text);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        /* HEADER & NAV */
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--warm-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-subtitle {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--fresh-green);
+            letter-spacing: 1px;
+            margin-top: -4px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--warm-orange);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--warm-orange);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .btn-cta {
+            background: linear-gradient(135deg, var(--warm-orange), var(--accent-orange));
+            color: var(--white);
+            padding: 0.7rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.4);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, rgba(0, 67, 168, 0.95) 0%, rgba(39, 174, 96, 0.05) 100%);
+            color: var(--white);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 140, 66, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--warm-orange);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255, 140, 66, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--white);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--deep-blue);
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            background: var(--light-gray);
+            padding: 5rem 2rem;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: var(--deep-blue);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-text);
+            line-height: 1.8;
+        }
+
+        .about-highlight {
+            background: var(--warm-orange);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border-left: 6px solid var(--deep-blue);
+        }
+
+        .about-highlight strong {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 67, 168, 0.15);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* PROGRAMS SECTION */
+        .programs {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: var(--deep-blue);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 800;
+        }
+
+        .programs-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .program-card {
+            background: linear-gradient(135deg, rgba(0, 67, 168, 0.05) 0%, rgba(39, 174, 96, 0.05) 100%);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border-left: 5px solid var(--warm-orange);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .program-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0, 67, 168, 0.12);
+            border-left-color: var(--fresh-green);
+        }
+
+        .program-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .program-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--deep-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .program-card p {
+            color: var(--dark-text);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* STORIES SECTION */
+        .stories {
+            background: linear-gradient(135deg, var(--deep-blue) 0%, rgba(0, 67, 168, 0.8) 100%);
+            padding: 5rem 2rem;
+            color: var(--white);
+        }
+
+        .stories .section-title {
+            color: var(--white);
+            margin-bottom: 3rem;
+        }
+
+        .stories-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .story-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .story-card strong {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--warm-orange);
+        }
+
+        .story-card p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            background: linear-gradient(135deg, var(--warm-orange) 0%, var(--accent-orange) 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--warm-orange);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark-text);
+            color: var(--white);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 1rem;
+            color: var(--warm-orange);
+            font-weight: 700;
+        }
+
+        .footer-section p, .footer-section a {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            line-height: 1.8;
+        }
+
+        .footer-section a {
+            color: var(--warm-orange);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--warm-orange);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: var(--white);
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--fresh-green);
+            transform: translateY(-4px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero .tagline {
+                font-size: 1rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-text h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero-buttons,
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary,
+            .btn-secondary,
+            .btn-white {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* SCROLL ANIMATIONS */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <div>
+                <div class="logo">THE RISING MUKURU</div>
+                <div class="logo-subtitle">Rising Together</div>
+            </div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#stories">Impact</a></li>
+                <li><button class="btn-cta" onclick="document.getElementById('donate').scrollIntoView();">Donate</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Rising Together,<br>Empowering Lives.</h1>
+            <p class="tagline">Hope. Support. Empowerment.</p>
+            <p class="hero-subtitle">In Mukuru kwa Reuben, we're building a stronger, safer community—one young person, one story, one dream at a time.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="document.getElementById('donate').scrollIntoView();">Make an Impact</button>
+                <button class="btn-secondary" onclick="document.getElementById('programs').scrollIntoView();">Learn Our Work</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Meet Beth's Vision</h2>
+                <p>Founded on <strong>August 30, 2017</strong>, The Rising Mukuru began as a simple act of hope: creating a safe space for vulnerable children and young women in our community.</p>
+                <p>Beth Muturi saw the gaps. She saw girls facing gender-based violence. She saw youth without mentorship. She saw potential being crushed by poverty and hopelessness.</p>
+                <div class="about-highlight">
+                    <strong>She decided to take action.</strong>
+                    Today, we run mentorship programs, mental health sessions, and community workshops—reaching young lives every single day.
+                </div>
+                <p><strong>Our dream?</strong> A stronger, safer Mukuru where every child and woman has hope, confidence, and real opportunity.</p>
+            </div>
+            <div class="about-image">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23FF8C42' width='400' height='400'/%3E%3Ctext x='50%' y='50%' font-family='Arial' font-size='28' fill='white' text-anchor='middle' dominant-baseline='middle'%3E[Community Impact Photo]%3C/text%3E%3C/svg%3E" alt="Beth and community">
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section id="programs" class="programs">
+        <h2 class="section-title">What We Do</h2>
+        <div class="programs-grid">
+            <div class="program-card">
+                <div class="program-icon">🤝</div>
+                <h3>Mentorship Programs</h3>
+                <p>Connecting vulnerable youth with role models who believe in them. Real guidance. Real relationships. Real transformation.</p>
+            </div>
+            <div class="program-card">
+                <div class="program-icon">💚</div>
+                <h3>Mental Health Support</h3>
+                <p>Safe spaces to process trauma, build resilience, and reclaim mental wellbeing. Because healing matters.</p>
+            </div>
+            <div class="program-card">
+                <div class="program-icon">🍽️</div>
+                <h3>Basic Needs Access</h3>
+                <p>Nutritious meals, shelter support, and essential resources—meeting immediate needs so young people can dream bigger.</p>
+            </div>
+            <div class="program-card">
+                <div class="program-icon">👩‍🎓</div>
+                <h3>Empowerment Workshops</h3>
+                <p>Skills training, financial literacy, and gender-based violence prevention—building strong foundations for independent futures.</p>
+            </div>
+            <div class="program-card">
+                <div class="program-icon">🎯</div>
+                <h3>Community Engagement</h3>
+                <p>Activating the neighborhood. Street football tournaments, art sessions, dance events—joy is part of the healing.</p>
+            </div>
+            <div class="program-card">
+                <div class="program-icon">🌟</div>
+                <h3>Leadership Development</h3>
+                <p>Identifying emerging leaders among youth and young women—building the change-makers our community needs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORIES -->
+    <section id="stories" class="stories">
+        <h2 class="section-title">Stories of Change</h2>
+        <div class="stories-grid">
+            <div class="story-card">
+                <strong>From Hopelessness to Hope</strong>
+                <p>"I felt lost until The Rising Mukuru found me. Now I have mentors who believe in me. I'm in school, and I have dreams for my future. They saved my life." — Amina, 17</p>
+            </div>
+            <div class="story-card">
+                <strong>Breaking the Cycle</strong>
+                <p>"As a single parent, I struggled to keep my kids safe. This organization gave us food, guidance, and community. My children are thriving. I'm thriving." — Margaret, Mother of 3</p>
+            </div>
+            <div class="story-card">
+                <strong>Finding Her Voice</strong>
+                <p>"I survived GBV. I thought life was over. The Rising Mukuru helped me heal, taught me my rights, and showed me I'm powerful. Now I'm helping other girls." — Zainab, 21</p>
+            </div>
+            <div class="story-card">
+                <strong>From Street to Scholar</strong>
+                <p>"Street life was all I knew. But they didn't give up on me. They provided shelter, schooling, and belief. Next year, I'm in university." — David, 19</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="donate" class="cta-section">
+        <h2>Be Part of the Rising</h2>
+        <p>Every child in Mukuru deserves hope, safety, and opportunity. Your support transforms lives.</p>
+        <div class="cta-buttons">
+            <button class="btn-white">💳 Donate Now</button>
+            <button class="btn-white">🙋 Volunteer With Us</button>
+            <button class="btn-white">🤝 Partner With Us</button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>The Rising Mukuru</h4>
+                <p>Building a stronger, safer, more empowered Mukuru community—one young person at a time.</p>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">📷</a>
+                    <a href="#">🐦</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <p><a href="#about">About Us</a></p>
+                <p><a href="#programs">Programs</a></p>
+                <p><a href="#stories">Impact Stories</a></p>
+                <p><a href="#">Contact</a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Get Involved</h4>
+                <p><a href="#">Make a Donation</a></p>
+                <p><a href="#">Become a Volunteer</a></p>
+                <p><a href="#">Corporate Partnerships</a></p>
+                <p><a href="#">Newsletter Signup</a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📍 Mukuru kwa Reuben, Nairobi<br>📧 hello@risingmukuru.org<br>📱 +254 (0) XXX XXX XXX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 The Rising Mukuru. A community-driven movement for hope and empowerment. Built with 💚</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.program-card, .story-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Button interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.cursor = 'pointer';
+            });
+        });
+    </script>
+</body>
+</html>

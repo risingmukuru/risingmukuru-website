@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate — The Rising Mukuru</title>
+  <meta name="description" content="Support The Rising Mukuru with a donation. Every dollar helps youth in Mukuru kwa Reuben access mentorship, mental health care, and opportunity." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.21/dist/lenis.css" />
+
+  <style>
+    :root {
+      --orange: #FF8C42; --orange-light: #FFB37A;
+      --blue: #0043A8; --blue-dark: #002F78; --blue-mid: #1A5FC8;
+      --green: #27AE60;
+      --ink: #0D1520; --ink-60: rgba(13,21,32,.6); --ink-30: rgba(13,21,32,.3);
+      --snow: #FFFFFF; --fog: #F4F6FA; --border: rgba(0,67,168,.1);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --ease-expo: cubic-bezier(0.16,1,.3,1);
+      --ease-back: cubic-bezier(0.34,1.56,.64,1);
+      --r-md: 16px; --r-lg: 24px; --r-xl: 40px;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font-body); color: var(--ink); background: var(--snow); overflow-x: hidden; cursor: none; }
+    a { text-decoration: none; color: inherit; }
+
+    #cursor { width:12px;height:12px;background:var(--orange);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply; }
+    #cursor-ring { width:40px;height:40px;border:2px solid var(--orange);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s var(--ease-expo),height .4s var(--ease-expo);opacity:.5; }
+    body.ch #cursor { width:6px;height:6px;background:var(--blue); }
+    body.ch #cursor-ring { width:60px;height:60px;opacity:.2;border-color:var(--blue); }
+
+    .pt { position:fixed;inset:0;z-index:10000;background:var(--blue-dark);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease-expo); }
+    .pt.gone { opacity:0;pointer-events:none; }
+    .pt-logo { font-family:var(--font-display);font-weight:800;font-size:1.8rem;background:linear-gradient(120deg,var(--snow),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:ptP 1.2s ease-in-out; }
+    @keyframes ptP { 0%{opacity:0;transform:scale(.85);}50%{opacity:1;}100%{opacity:1;transform:scale(1);} }
+
+    .noise { position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px; }
+
+    /* Nav */
+    #header { position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s; }
+    #header.scrolled { background:rgba(255,255,255,.9);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border),0 8px 40px rgba(0,0,0,.06);padding:.85rem 3rem; }
+    .logo-wrap { display:flex;flex-direction:column; }
+    .logo-name { font-family:var(--font-display);font-weight:800;font-size:1.4rem;background:linear-gradient(120deg,var(--blue) 30%,var(--orange) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em;line-height:1; }
+    .logo-tag { font-size:.6rem;font-weight:600;letter-spacing:.15em;color:var(--green);text-transform:uppercase;margin-top:2px; }
+    .nav-links { display:flex;align-items:center;gap:2.5rem;list-style:none; }
+    .nav-links a { font-size:.88rem;font-weight:500;color:var(--ink-60);position:relative;transition:color .3s; }
+    .nav-links a::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--orange);transition:width .35s var(--ease-expo); }
+    .nav-links a:hover { color:var(--ink); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-donate { background:var(--orange)!important;color:var(--snow)!important;padding:.6rem 1.4rem;border-radius:100px;font-weight:600!important;box-shadow:0 4px 20px rgba(255,140,66,.3); }
+    .nav-donate::after { display:none!important; }
+    .hamburger { display:none;flex-direction:column;gap:5px;cursor:none;padding:4px; }
+    .hamburger span { width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s; }
+    @media(max-width:768px){
+      #header{padding:1rem 1.5rem;}#header.scrolled{padding:.8rem 1.5rem;}
+      .hamburger{display:flex;}
+      .nav-links{position:fixed;top:0;right:-100%;bottom:0;width:min(320px,85vw);background:var(--snow);flex-direction:column;align-items:flex-start;justify-content:center;padding:3rem 2.5rem;gap:2rem;box-shadow:-20px 0 60px rgba(0,0,0,.12);transition:right .45s var(--ease-expo);z-index:999;}
+      .nav-links.open{right:0;}
+    }
+    .nav-backdrop{position:fixed;inset:0;background:rgba(13,21,32,.4);z-index:998;opacity:0;pointer-events:none;transition:opacity .3s;}
+    .nav-backdrop.visible{opacity:1;pointer-events:all;}
+
+    /* Hero */
+    .donate-hero { min-height:55vh;background:var(--blue-dark);display:flex;align-items:center;justify-content:center;text-align:center;padding:9rem 2rem 5rem;position:relative;overflow:hidden; }
+    .donate-hero-photo { position:absolute;inset:0;background-image:url('assets/images/community-03.jpg');background-size:cover;background-position:center;filter:brightness(.3) saturate(.7); }
+    .donate-hero-mesh { position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 50%,rgba(0,67,168,.65) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 80% 40%,rgba(255,140,66,.25) 0%,transparent 55%); }
+    .donate-hero-inner { position:relative;z-index:2;max-width:680px; }
+    .dhbadge { display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:.4rem 1.2rem;border-radius:100px;color:rgba(255,255,255,.85);font-size:.8rem;font-weight:500;letter-spacing:.04em;margin-bottom:1.5rem; }
+    .donate-hero h1 { font-family:var(--font-display);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:var(--snow);letter-spacing:-.03em;line-height:.95;margin-bottom:1.2rem; }
+    .donate-hero h1 .acc { color:var(--orange-light); }
+    .donate-hero p { color:rgba(255,255,255,.65);font-size:1.05rem;line-height:1.7; }
+
+    /* Main */
+    .donate-main { max-width:1100px;margin:0 auto;padding:5rem 2rem;display:grid;grid-template-columns:1.4fr 1fr;gap:4rem;align-items:start; }
+    @media(max-width:860px){ .donate-main{grid-template-columns:1fr;gap:2.5rem;} }
+
+    /* Widget */
+    .widget-card { background:var(--snow);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:2.5rem;box-shadow:0 12px 60px rgba(0,67,168,.08); }
+    .widget-card h2 { font-family:var(--font-display);font-weight:800;font-size:1.6rem;color:var(--ink);margin-bottom:.5rem;letter-spacing:-.02em; }
+    .widget-card > p { font-size:.88rem;color:var(--ink-60);margin-bottom:2rem; }
+
+    /* Currency toggle */
+    .currency-row { display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap; }
+    .currency-label { font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-30);flex-shrink:0; }
+    .currency-toggle { display:flex;gap:0;background:var(--fog);border-radius:100px;padding:3px;flex-shrink:0; }
+    .currency-btn { padding:.45rem 1rem;border-radius:100px;font-size:.82rem;font-weight:700;color:var(--ink-60);transition:all .3s;cursor:none;border:none;background:none;white-space:nowrap; }
+    .currency-btn.active { background:var(--blue);color:var(--snow);box-shadow:0 2px 12px rgba(0,67,168,.2); }
+    .currency-rate { font-size:.72rem;color:var(--ink-30);font-weight:500;margin-left:auto; }
+
+    .freq-toggle { display:flex;gap:0;background:var(--fog);border-radius:100px;padding:4px;margin-bottom:2rem; }
+    .freq-btn { flex:1;padding:.55rem;border-radius:100px;text-align:center;font-size:.82rem;font-weight:600;color:var(--ink-60);transition:all .3s;cursor:none;border:none;background:none; }
+    .freq-btn.active { background:var(--snow);color:var(--blue);box-shadow:0 2px 12px rgba(0,0,0,.1); }
+
+    .amount-label { font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-30);margin-bottom:.8rem;display:block; }
+    .amounts-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem; }
+    .amount-btn { padding:.85rem;border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--fog);font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--ink);transition:all .3s var(--ease-back);cursor:none;text-align:center;width:100%; }
+    .amount-btn:hover { border-color:var(--orange);background:rgba(255,140,66,.07);color:var(--orange);transform:translateY(-2px); }
+    .amount-btn.selected { border-color:var(--blue);background:rgba(0,67,168,.07);color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,67,168,.12); }
+    .amount-btn small { display:block;font-family:var(--font-body);font-size:.68rem;font-weight:500;color:var(--ink-60);margin-top:2px; }
+    .amount-btn.selected small { color:var(--blue-mid); }
+
+    .custom-wrap { position:relative;margin-bottom:2rem; }
+    .custom-prefix { position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:var(--ink-60); }
+    .custom-input { width:100%;padding:.9rem 1rem .9rem 2rem;border:1.5px solid var(--border);border-radius:var(--r-md);font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:var(--ink);background:var(--fog);outline:none;cursor:none;transition:border-color .3s,box-shadow .3s; }
+    .custom-input:focus { border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,67,168,.1);background:var(--snow); }
+    .custom-input::placeholder { color:var(--ink-30);font-weight:500; }
+
+    .impact-preview { background:linear-gradient(135deg,rgba(0,67,168,.05),rgba(255,140,66,.05));border:1.5px solid rgba(255,140,66,.25);border-radius:var(--r-md);padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem; }
+    .impact-preview-icon { font-size:1.8rem;flex-shrink:0; }
+    .impact-preview-text { font-size:.88rem;line-height:1.5;color:var(--ink); }
+    .impact-preview-text strong { color:var(--blue); }
+
+    .donate-btn { display:block;width:100%;background:linear-gradient(135deg,var(--blue),var(--blue-mid));color:var(--snow);padding:1.1rem;border-radius:var(--r-md);font-family:var(--font-display);font-weight:800;font-size:1.1rem;text-align:center;box-shadow:0 8px 32px rgba(0,67,168,.3);transition:transform .35s var(--ease-back),box-shadow .3s,background .3s;cursor:none; }
+    .donate-btn:hover { background:linear-gradient(135deg,var(--orange),#FF6B00);transform:translateY(-4px);box-shadow:0 16px 44px rgba(255,140,66,.4); }
+    .donate-btn-sub { text-align:center;font-size:.75rem;color:var(--ink-30);margin-top:.75rem; }
+    .donate-btn-sub span { color:var(--green);font-weight:600; }
+
+    /* Sidebar */
+    .sidebar { display:flex;flex-direction:column;gap:1.5rem; }
+    .side-card { background:var(--fog);border-radius:var(--r-lg);padding:2rem;border:1px solid var(--border); }
+    .side-card h3 { font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--ink);margin-bottom:1rem; }
+    .impact-list { list-style:none;display:flex;flex-direction:column;gap:.7rem; }
+    .impact-list li { display:flex;align-items:flex-start;gap:.6rem;font-size:.88rem;color:var(--ink);line-height:1.4; }
+    .impact-list li::before { content:'';width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:4px; }
+    .trust-list { list-style:none;display:flex;flex-direction:column;gap:.8rem; }
+    .trust-list li { display:flex;align-items:center;gap:.8rem;font-size:.85rem;color:var(--ink); }
+    .trust-icon { width:32px;height:32px;background:var(--snow);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.06); }
+    .quote-card { border-radius:var(--r-lg);overflow:hidden;position:relative; }
+    .quote-card-photo { width:100%;height:140px;object-fit:cover;object-position:center 20%;display:block;filter:brightness(.55) saturate(.7); }
+    .quote-card-body { background:linear-gradient(135deg,var(--blue-dark),var(--blue));padding:1.5rem;color:var(--snow);position:relative; }
+    .quote-card-body .noise { opacity:.04; }
+    .quote-card-body p { font-size:.9rem;line-height:1.7;margin-bottom:.75rem;font-style:italic;position:relative;z-index:1; }
+    .quote-card-body cite { font-size:.78rem;color:rgba(255,255,255,.6);font-style:normal;position:relative;z-index:1; }
+
+    /* Impact images row */
+    .impact-images { display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:var(--r-lg);overflow:hidden;margin-top:1.5rem; }
+    .impact-images img { width:100%;height:100px;object-fit:cover;filter:saturate(.8);transition:filter .3s; }
+    .impact-images img:hover { filter:saturate(1.1); }
+
+    /* Other ways */
+    .other-ways { background:var(--fog);padding:5rem 2rem;text-align:center; }
+    .other-ways h2 { font-family:var(--font-display);font-weight:800;font-size:2rem;color:var(--ink);margin-bottom:.75rem;letter-spacing:-.02em; }
+    .other-ways>p { font-size:.95rem;color:var(--ink-60);margin-bottom:3rem; }
+    .ways-grid { max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem; }
+    .way-card { background:var(--snow);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:2rem;transition:all .4s var(--ease-expo); }
+    .way-card:hover { border-color:var(--orange);transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,67,168,.1); }
+    .way-icon { font-size:2rem;margin-bottom:1rem;display:block; }
+    .way-card h3 { font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:.5rem; }
+    .way-card p { font-size:.82rem;color:var(--ink-60);line-height:1.6; }
+    .way-link { display:inline-block;margin-top:1rem;font-size:.82rem;font-weight:700;color:var(--blue); }
+    .way-link:hover { color:var(--orange); }
+    @media(max-width:600px){ .ways-grid{grid-template-columns:1fr;} }
+
+    .mini-footer { background:var(--ink);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem; }
+    .mini-footer p { font-size:.8rem;color:rgba(255,255,255,.35); }
+    .mini-footer a { font-size:.8rem;color:rgba(255,255,255,.5);transition:color .2s; }
+    .mini-footer a:hover { color:var(--orange); }
+
+    .reveal { opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease-expo),transform .8s var(--ease-expo); }
+    .reveal.visible { opacity:1;transform:translateY(0); }
+    .rd1{transition-delay:.1s;}.rd2{transition-delay:.2s;}.rd3{transition-delay:.3s;}
+  </style>
+</head>
+<body>
+
+<div class="pt" id="pt"><div class="pt-logo">Donate</div></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="nav-backdrop" id="nav-backdrop"></div>
+
+<header id="header">
+  <div class="logo-wrap">
+    <a href="index.html"><span class="logo-name">THE RISING MUKURU</span></a>
+    <span class="logo-tag">Rising Together · Est. 2017</span>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#programs">Programs</a></li>
+    <li><a href="index.html#impact">Impact</a></li>
+    <li><a href="volunteer.html">Volunteer</a></li>
+    <li><a href="donate.html" class="nav-donate">Donate</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<section class="donate-hero">
+  <div class="noise"></div>
+  <div class="donate-hero-photo"></div>
+  <div class="donate-hero-mesh"></div>
+  <div class="donate-hero-inner">
+    <div class="dhbadge">💚 100% goes directly to community programs</div>
+    <h1 id="cms-donate-h1">Give Hope.<br><span class="acc">Change Lives.</span></h1>
+    <p id="cms-donate-intro">Your contribution directly funds mentorship, mental health support, and empowerment for young people in Mukuru kwa Reuben — one of Nairobi's most underserved communities.</p>
+  </div>
+</section>
+
+<div class="donate-main">
+  <div class="reveal">
+    <div class="widget-card">
+      <h2>Make a Donation</h2>
+      <p>Choose your currency, frequency, and an amount that feels right.</p>
+
+      <!-- Currency toggle -->
+      <div class="currency-row">
+        <span class="currency-label">Currency</span>
+        <div class="currency-toggle" id="currency-toggle">
+          <button class="currency-btn active" data-currency="KSH">🇰🇪 KSh</button>
+          <button class="currency-btn" data-currency="USD">🌍 USD</button>
+        </div>
+        <span class="currency-rate" id="rate-display">1 USD ≈ KSh 129</span>
+      </div>
+
+      <!-- Frequency toggle -->
+      <div class="freq-toggle" id="freq-toggle">
+        <button class="freq-btn active" data-freq="once">One-time</button>
+        <button class="freq-btn" data-freq="monthly">Monthly</button>
+        <button class="freq-btn" data-freq="annual">Annual</button>
+      </div>
+
+      <span class="amount-label" id="amount-label">Select Amount (KSh)</span>
+      <div class="amounts-grid" id="amounts-grid">
+        <!-- populated by JS -->
+      </div>
+
+      <div class="custom-wrap">
+        <span class="custom-prefix" id="custom-prefix">KSh</span>
+        <input type="number" class="custom-input" id="custom-input" placeholder="Or enter a custom amount" min="1" />
+      </div>
+
+      <div class="impact-preview" id="impact-preview">
+        <div class="impact-preview-icon">✨</div>
+        <div class="impact-preview-text" id="impact-text"><strong>KSh 6,500</strong> gives 5 girls access to mentorship for a full month.</div>
+      </div>
+
+      <a href="#" class="donate-btn" id="donate-cta">Donate KSh 6,500 via Zenlipa →</a>
+      <p class="donate-btn-sub"><span>🔒 Zenlipa secure checkout</span> · Processed in Kenyan Shillings</p>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="side-card reveal rd1">
+      <div class="impact-images">
+        <img src="assets/images/community-01.jpg" alt="Feeding program" loading="lazy" />
+        <img src="assets/images/community-02.jpg" alt="Women empowerment" loading="lazy" />
+        <img src="assets/images/community-04.jpg" alt="Youth program" loading="lazy" />
+        <img src="assets/images/community-03.jpg" alt="Children" loading="lazy" />
+      </div>
+      <h3 style="margin-top:1.5rem">What Your Donation Does</h3>
+      <ul class="impact-list">
+        <li><strong>KSh 1,300 · $10</strong> — Feeds a child nutritious meals for 3 days</li>
+        <li><strong>KSh 3,200 · $25</strong> — Provides school supplies for 2 girls</li>
+        <li><strong>KSh 6,500 · $50</strong> — Funds mentorship access for a month</li>
+        <li><strong>KSh 13,000 · $100</strong> — Covers a full empowerment workshop</li>
+        <li><strong>KSh 32,000 · $250</strong> — Supports 10 mental health sessions</li>
+        <li><strong>KSh 65,000 · $500</strong> — Transforms a young person's trajectory</li>
+      </ul>
+    </div>
+
+    <div class="quote-card reveal rd2">
+      <img src="assets/images/beth.jpg" class="quote-card-photo" alt="Community member" loading="lazy" />
+      <div class="quote-card-body">
+        <div class="noise"></div>
+        <p>"I felt completely lost until The Rising Mukuru found me. They saved my life."</p>
+        <cite>— Amina, Age 17, Program Beneficiary</cite>
+      </div>
+    </div>
+
+    <div class="side-card reveal rd3">
+      <h3>You Can Trust Us</h3>
+      <ul class="trust-list">
+        <li><span class="trust-icon">🔒</span> Secure, encrypted payment processing</li>
+        <li><span class="trust-icon">💯</span> 100% of funds reach the community</li>
+        <li><span class="trust-icon">📊</span> Annual impact reports published</li>
+        <li><span class="trust-icon">🌍</span> Registered NGO in Kenya since 2017</li>
+        <li><span class="trust-icon">📧</span> Donation receipt sent automatically</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="other-ways">
+  <h2 class="reveal">Other Ways to Help</h2>
+  <p class="reveal rd1">Money isn't the only currency of change. Here are more ways to get involved.</p>
+  <div class="ways-grid">
+    <div class="way-card reveal">
+      <span class="way-icon">🙋</span>
+      <h3>Volunteer</h3>
+      <p>Give your time and skills. We need mentors, educators, and community builders.</p>
+      <a href="volunteer.html" class="way-link">Apply now →</a>
+    </div>
+    <div class="way-card reveal rd1">
+      <span class="way-icon">🤝</span>
+      <h3>Partner</h3>
+      <p>Organizational partnerships that create lasting infrastructure for communities.</p>
+      <a href="#" class="way-link" style="opacity:.5;pointer-events:none;cursor:default;">Email coming soon</a>
+    </div>
+    <div class="way-card reveal rd2">
+      <span class="way-icon">📣</span>
+      <h3>Spread the Word</h3>
+      <p>Share our story. Tell one person. Post one story. Every voice amplifies impact.</p>
+      <a href="index.html#impact" class="way-link">Read stories →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="mini-footer">
+  <p>© 2025 The Rising Mukuru. Built with 💚</p>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="index.html">Home</a>
+    <a href="volunteer.html">Volunteer</a>
+    <a href="#" style="opacity:.5;pointer-events:none;cursor:default;">Contact</a>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.3.21/dist/lenis.min.js"></script>
+<script>
+window.addEventListener('load', () => setTimeout(() => document.getElementById('pt').classList.add('gone'), 700));
+new Lenis({ autoRaf: true, lerp: 0.1 });
+
+/* ── Cursor ── */
+const cursor = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function anim(){ cursor.style.left=mx+'px';cursor.style.top=my+'px'; rx+=(mx-rx)*.12;ry+=(my-ry)*.12; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+document.querySelectorAll('a,button,input,.amount-btn,.way-card').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+});
+
+/* ── Mobile nav ── */
+const hamburger=document.getElementById('hamburger'),navLinks=document.getElementById('nav-links'),navBackdrop=document.getElementById('nav-backdrop');
+let no=false;
+function toggleNav(){ no=!no;navLinks.classList.toggle('open',no);navBackdrop.classList.toggle('visible',no); hamburger.querySelectorAll('span')[0].style.transform=no?'translateY(7px) rotate(45deg)':''; hamburger.querySelectorAll('span')[1].style.opacity=no?'0':''; hamburger.querySelectorAll('span')[2].style.transform=no?'translateY(-7px) rotate(-45deg)':''; }
+hamburger.addEventListener('click',toggleNav);navBackdrop.addEventListener('click',toggleNav);
+window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60));
+
+/* ── Scroll reveal ── */
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ── Frequency toggle ── */
+document.querySelectorAll('.freq-btn').forEach(btn => {
+  btn.addEventListener('click', () => { document.querySelectorAll('.freq-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); });
+});
+
+/* ══════════════════════════════════════
+   DUAL CURRENCY ENGINE
+══════════════════════════════════════ */
+
+// Exchange rate — update this number any time
+// 1 USD in KSh. Source: CBK average rate.
+const USD_TO_KSH = 129;
+
+// All amounts defined in KSH (native Zenlipa currency)
+const TIERS = [
+  { ksh: 1300,  usd: 10,  label_ksh: 'Meals for 3 days',        label_usd: 'Meals for 3 days' },
+  { ksh: 3200,  usd: 25,  label_ksh: 'School supplies',          label_usd: 'School supplies' },
+  { ksh: 6500,  usd: 50,  label_ksh: 'Mentorship — 1 month',     label_usd: 'Mentorship — 1 month' },
+  { ksh: 13000, usd: 100, label_ksh: 'Full workshop',             label_usd: 'Full workshop' },
+  { ksh: 32000, usd: 250, label_ksh: 'Mental health sessions',    label_usd: 'Mental health sessions' },
+  { ksh: 65000, usd: 500, label_ksh: 'Transform a life',          label_usd: 'Transform a life' },
+];
+
+const IMPACT_KSH = [
+  [1300,  'feeds a child nutritious meals for 3 days.'],
+  [3200,  'provides school supplies for 2 girls.'],
+  [6500,  'gives 5 girls mentorship access for a full month.'],
+  [13000, 'funds a complete empowerment workshop.'],
+  [32000, 'supports 10 mental health sessions for youth.'],
+  [65000, 'transforms a young person\'s entire trajectory.'],
+];
+
+const IMPACT_USD = [
+  [10,  'feeds a child nutritious meals for 3 days.'],
+  [25,  'provides school supplies for 2 girls.'],
+  [50,  'gives 5 girls mentorship access for a full month.'],
+  [100, 'funds a complete empowerment workshop.'],
+  [250, 'supports 10 mental health sessions for youth.'],
+  [500, 'transforms a young person\'s entire trajectory.'],
+];
+
+let activeCurrency = 'KSH'; // KSH is default — Zenlipa native
+let selectedKsh = 6500;     // default selected tier in KSH
+
+function fmt(n, currency) {
+  if (currency === 'KSH') return 'KSh ' + n.toLocaleString('en-KE');
+  return '$' + n.toLocaleString('en-US');
+}
+
+function getImpact(amount, currency) {
+  const map = currency === 'KSH' ? IMPACT_KSH : IMPACT_USD;
+  const found = [...map].reverse().find(([k]) => k <= amount);
+  return found ? found[1] : map[map.length - 1][1];
+}
+
+function renderAmountBtns() {
+  const grid = document.getElementById('amounts-grid');
+  grid.innerHTML = '';
+  TIERS.forEach(tier => {
+    const btn = document.createElement('button');
+    btn.className = 'amount-btn' + (
+      activeCurrency === 'KSH' ? (tier.ksh === selectedKsh ? ' selected' : '') :
+                                 (tier.usd === Math.round(selectedKsh / USD_TO_KSH) ? ' selected' : '')
+    );
+    btn.dataset.ksh = tier.ksh;
+    const displayAmt = activeCurrency === 'KSH' ? tier.ksh : tier.usd;
+    const label      = activeCurrency === 'KSH' ? tier.label_ksh : tier.label_usd;
+    const sym        = activeCurrency === 'KSH' ? 'KSh ' : '$';
+    btn.innerHTML = `${sym}${displayAmt.toLocaleString()}<small>${label}</small>`;
+    btn.addEventListener('click', () => {
+      selectedKsh = tier.ksh;
+      document.getElementById('custom-input').value = '';
+      renderAmountBtns();
+      updateDonation();
+    });
+    grid.appendChild(btn);
+  });
+
+  // re-bind cursor hover
+  grid.querySelectorAll('.amount-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+  });
+}
+
+function updateDonation() {
+  const isKsh = activeCurrency === 'KSH';
+  const displayAmt = isKsh ? selectedKsh : (selectedKsh / USD_TO_KSH).toFixed(0);
+  const amtFormatted = isKsh
+    ? 'KSh ' + Number(selectedKsh).toLocaleString('en-KE')
+    : '$' + Number(Math.round(selectedKsh / USD_TO_KSH)).toLocaleString('en-US');
+
+  const impact = getImpact(isKsh ? selectedKsh : Math.round(selectedKsh / USD_TO_KSH), activeCurrency);
+  document.getElementById('impact-text').innerHTML = `<strong>${amtFormatted}</strong> ${impact}`;
+
+  // CTA — always pass KSH to Zenlipa regardless of display currency
+  const cta = document.getElementById('donate-cta');
+  cta.textContent = `Donate ${amtFormatted} via Zenlipa →`;
+  // When you have the real Zenlipa URL, replace the href pattern below:
+  cta.href = `https://zenlipa.com/pay/risingmukuru?amount=${selectedKsh}&currency=KES`;
+
+  document.getElementById('donate-cta').parentNode.querySelector('.donate-btn-sub').innerHTML =
+    `<span>🔒 Zenlipa secure checkout</span> · ${isKsh ? 'Paying in Kenyan Shillings' : `≈ KSh ${Number(selectedKsh).toLocaleString()} charged`}`;
+}
+
+function switchCurrency(currency) {
+  activeCurrency = currency;
+  document.getElementById('amount-label').textContent = `Select Amount (${currency === 'KSH' ? 'KSh' : 'USD'})`;
+  document.getElementById('custom-prefix').textContent = currency === 'KSH' ? 'KSh' : '$';
+  document.getElementById('custom-input').value = '';
+  document.getElementById('custom-input').placeholder = currency === 'KSH'
+    ? 'Or enter a custom KSh amount' : 'Or enter a custom USD amount';
+  renderAmountBtns();
+  updateDonation();
+}
+
+/* Currency toggle buttons */
+document.querySelectorAll('.currency-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    switchCurrency(btn.dataset.currency);
+  });
+});
+
+/* Custom amount input */
+document.getElementById('custom-input').addEventListener('input', e => {
+  const v = parseFloat(e.target.value);
+  if (v > 0) {
+    // Convert to KSH internally always
+    selectedKsh = activeCurrency === 'KSH' ? v : Math.round(v * USD_TO_KSH);
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+    updateDonation();
+  }
+});
+
+/* Try fetching live rate — falls back to static rate if blocked */
+fetch('https://open.er-api.com/v6/latest/USD')
+  .then(r => r.json())
+  .then(data => {
+    if (data && data.rates && data.rates.KES) {
+      const live = Math.round(data.rates.KES);
+      document.getElementById('rate-display').textContent = `1 USD ≈ KSh ${live} (live)`;
+    }
+  })
+  .catch(() => {
+    document.getElementById('rate-display').textContent = `1 USD ≈ KSh ${USD_TO_KSH}`;
+  });
+
+/* Init */
+switchCurrency('KSH');
+
+/* ═══════════════════════════════════
+   CMS CONTENT LOADER — donate.html
+   Loads donate.json & contact.json
+   and patches page content dynamically
+═══════════════════════════════════ */
+(function loadDonateCMS() {
+  const $ = id => document.getElementById(id);
+
+  fetch('content/data/donate.json').then(r => r.json()).then(d => {
+    /* Hero heading */
+    const h1 = $('cms-donate-h1');
+    if (h1 && d.heading) h1.innerHTML = d.heading.replace('. ', '.<br><span class="acc">') + '</span>';
+
+    /* Intro paragraph */
+    const intro = $('cms-donate-intro');
+    if (intro && d.intro) intro.textContent = d.intro;
+
+    /* Exchange rate override */
+    if (d.usd_rate && d.usd_rate !== 129) {
+      window.USD_TO_KSH = d.usd_rate;
+      const rateEl = $('rate-display');
+      if (rateEl) rateEl.textContent = `1 USD ≈ KSh ${d.usd_rate}`;
+    }
+
+    /* Zenlipa URL base */
+    if (d.zenlipa_url) {
+      window.ZENLIPA_BASE = d.zenlipa_url;
+    }
+
+    /* Donation tiers override */
+    if (Array.isArray(d.tiers) && d.tiers.length) {
+      window.TIERS = d.tiers.map(t => ({
+        ksh: t.ksh, usd: t.usd,
+        label_ksh: t.label, label_usd: t.label,
+        impact: t.impact
+      }));
+      window.IMPACT_KSH = d.tiers.map(t => [t.ksh, t.impact]);
+      window.IMPACT_USD = d.tiers.map(t => [t.usd, t.impact]);
+      window.selectedKsh = d.tiers[2] ? d.tiers[2].ksh : 6500;
+      renderAmountBtns();
+      updateDonation();
+    }
+  }).catch(() => {});
+
+  /* Contact info for any footer links */
+  fetch('content/data/contact.json').then(r => r.json()).then(d => {
+    /* Mini footer copyright year */
+    const ftYear = document.querySelector('.mini-footer p');
+    if (ftYear && d.year) {
+      ftYear.innerHTML = `© ${d.year} The Rising Mukuru. Built with 💚`;
+    }
+  }).catch(() => {});
+})();
+</script>
+</body>
+</html>

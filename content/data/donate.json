@@ -1,0 +1,14 @@
+{
+  "heading": "Give Hope. Change Lives.",
+  "intro": "Every shilling you send goes directly into programmes that protect girls, mentor youth, and support mental health in Mukuru kwa Reuben. No admin bloat. Just impact.",
+  "zenlipa_url": "",
+  "usd_rate": 129,
+  "tiers": [
+    { "ksh": 1300,  "usd": 10,  "label": "Supporter",      "impact": "Covers one youth mentorship session — a safe space, a listening ear, and a plan for the future." },
+    { "ksh": 3200,  "usd": 25,  "label": "Advocate",       "impact": "Funds one week of mental health outreach, reaching up to 10 young people in the community." },
+    { "ksh": 6500,  "usd": 50,  "label": "Champion",       "impact": "Sponsors one girl's safe space programme for a full month — protection, skills, and confidence." },
+    { "ksh": 13000, "usd": 100, "label": "Changemaker",    "impact": "Covers a full community workshop — training, materials, and facilitator costs included." },
+    { "ksh": 32000, "usd": 250, "label": "Pillar",         "impact": "Funds one month of our Women's Empowerment Circle, supporting 20+ women building livelihoods." },
+    { "ksh": 65000, "usd": 500, "label": "Founding Voice", "impact": "Transforms an entire community programme for a quarter — from planning to graduation day." }
+  ]
+}

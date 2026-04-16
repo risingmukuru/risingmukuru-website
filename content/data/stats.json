@@ -1,0 +1,6 @@
+{
+  "stat1": { "number": 500, "label": "Youth Reached", "plus": true },
+  "stat2": { "number": 250, "label": "Lives Empowered", "plus": true },
+  "stat3": { "number": 150, "label": "Girls Protected", "plus": true },
+  "stat4": { "number": 7,   "label": "Years of Impact", "plus": false }
+}
